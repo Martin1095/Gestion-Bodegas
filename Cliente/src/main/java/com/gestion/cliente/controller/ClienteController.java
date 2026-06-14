@@ -60,12 +60,13 @@ public class ClienteController {
     @Operation(summary = "Buscar cliente por RUT", description = "Devuelve la información de un cliente específico según su RUT.")
     @ApiResponse(responseCode = "200", description = "Cliente encontrado exitosamente")
     @ApiResponse(responseCode = "204", description = "Cliente no encontrado")
-    public ResponseEntity<List<ClienteDTO>> buscarPorRut(@PathVariable String rut) {
-        List<ClienteDTO> clientes = clienteService.buscarPorRut(rut);
-        if (clientes.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<ClienteDTO> buscarPorRut(@PathVariable String rut) {
+        try {
+            ClienteDTO cliente = clienteService.buscarPorRut(rut);
+            return new ResponseEntity<>(cliente, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
     // Método para añadir un nuevo cliente

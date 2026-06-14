@@ -30,18 +30,11 @@ public class ClienteService {
         return convertirAClienteDTO(cliente);
     }
 
-    // Metodo para obtener clientes por su RUT
-    public List<ClienteDTO> obtenerClientePorRut(String rut){
-        return clienteRepository.findByRut(rut).stream()
-                .map(this::convertirAClienteDTO)
-                .toList();
-    }
-
     // Metodo para eliminar un cliente por su ID
-    public String eliminarCliente(Integer id) {
+    public String eliminarCliente(Integer id_cliente) {
         try {
-            Cliente cliente = clienteRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El cliente con ID " + id + " no existe."));
+            Cliente cliente = clienteRepository.findById(id_cliente)
+                    .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El cliente con ID " + id_cliente + " no existe."));
             clienteRepository.delete(cliente);
             return "El cliente '" + cliente.getNombre() + "' ha sido eliminado exitosamente.";
         } catch (RuntimeException e) {
@@ -58,23 +51,25 @@ public class ClienteService {
     public Cliente actualizarCliente(Integer id_cliente, Cliente clienteActu) {
         Cliente cliente = clienteRepository.findById(id_cliente).orElseThrow(() -> new RuntimeException("¡Imposible editar! El cliente con ID " + id_cliente + " no existe."));
         
-        if(cliente.getNombre() != null) {
+        if(clienteActu.getNombre() != null) {
             cliente.setNombre(clienteActu.getNombre());
         }
-        if(cliente.getCorreo() != null) {
+        if(clienteActu.getCorreo() != null) {
             cliente.setCorreo(clienteActu.getCorreo());
         }
-        if(cliente.getTelefono() != null) {
+        if(clienteActu.getTelefono() != null) {
             cliente.setTelefono(clienteActu.getTelefono());
         }
         return clienteRepository.save(cliente);
     }
 
-    // Método para buscar clientes por RUT
-    public List<ClienteDTO> buscarPorRut(String rut) {
-        return clienteRepository.findByRut(rut).stream()
-                .map(this::convertirAClienteDTO)
-                .toList();
+    // Método para buscar cliente por RUT
+    public ClienteDTO buscarPorRut(String rut) {
+        Cliente cliente = clienteRepository.findByRut(rut);
+        if (cliente == null) {
+            throw new RuntimeException("Cliente no encontrado con RUT: " + rut);
+        }
+        return convertirAClienteDTO(cliente);
     }
     
     // Método para transformar un Cliente a ClienteDTO
