@@ -1,8 +1,5 @@
 package com.gestion.bodega.Service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,11 +37,13 @@ public class BodegasApplicationTests {
         Bodega b1 = new Bodega();
         Bodega b2 = new Bodega();
 
-        when(repo.findAll()).thenReturn(Arrays.asList(b1, b2));
+        when(repo.findAll())
+                .thenReturn(Arrays.asList(b1, b2));
 
         List<Bodega> resultado = service.listar();
 
         assertEquals(2, resultado.size());
+
         verify(repo).findAll();
     }
     // test para  metodo guardar 
@@ -53,7 +52,8 @@ public class BodegasApplicationTests {
 
         Bodega bodega = new Bodega();
 
-        when(repo.save(bodega)).thenReturn(bodega);
+        when(repo.save(bodega))
+                .thenReturn(bodega);
 
         Bodega resultado = service.guardar(bodega);
 
@@ -63,9 +63,10 @@ public class BodegasApplicationTests {
     }
     //test para buscar bodegas
     @Test
-    void testBuscar() {
+    void testBuscarPorId() {
 
         Bodega bodega = new Bodega();
+        bodega.setId_bodega(1);
 
         when(repo.findById(1))
                 .thenReturn(Optional.of(bodega));
@@ -73,6 +74,7 @@ public class BodegasApplicationTests {
         Bodega resultado = service.buscar(1);
 
         assertNotNull(resultado);
+        assertEquals(1, resultado.getId_bodega());
 
         verify(repo).findById(1);
     }
@@ -80,8 +82,14 @@ public class BodegasApplicationTests {
     @Test
     void testEliminar() {
 
+        Bodega bodega = new Bodega();
+        bodega.setId_bodega(1);
+
+        when(repo.findById(1))
+                .thenReturn(Optional.of(bodega));
+
         service.eliminar(1);
 
-        verify(repo).deleteById(1);
+        verify(repo).delete(bodega);
     }
 }
