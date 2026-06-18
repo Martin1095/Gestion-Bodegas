@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class ArticuloServiceTest {
+public class ArticulosApplicationTest {
 
     @Mock
     private ArticuloRepository articuloRepository;
