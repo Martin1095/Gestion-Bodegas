@@ -1,0 +1,87 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: articulo-service
+              uri: lb://articulos
+              predicates:
+                - Path=/api/v1/articulos/**, /articulos/api-docs/**
+
+            - id: bodega-service
+              uri: lb://bodegas
+              predicates:
+                - Path=/api/v1/bodegas/**, /bodegas/api-docs/**
+
+            - id: cliente-service
+              uri: lb://clientes
+              predicates:
+                - Path=/api/v1/clientes/**, /clientes/api-docs/**
+
+            - id: despachos-service
+              uri: lb://despachos
+              predicates:
+                - Path=/api/v1/despachos/**, /despachos/api-docs/**
+
+            - id: detallePedido-service
+              uri: lb://detallePedidos
+              predicates:
+                - Path=/api/v1/detallePedidos/**, /detallePedidos/api-docs/**
+
+            - id: inventario-service
+              uri: lb://inventarios
+              predicates:
+                - Path=/api/v1/inventarios/**, /inventarios/api-docs/**
+
+            - id: pedido-service
+              uri: lb://pedidos
+              predicates:
+                - Path=/api/v1/pedidos/**, /pedidos/api-docs/**
+
+            - id: proveedor-service
+              uri: lb://proveedores
+              predicates:
+                - Path=/api/v1/proveedores/**, /proveedores/api-docs/**
+
+            - id: recepcion-service
+              uri: lb://recepciones
+              predicates:
+                - Path=/api/v1/recepciones/**, /recepciones/api-docs/**
+
+            - id: trabajador-service
+              uri: lb://trabajadores
+              predicates:
+                - Path=/api/v1/trabajadores/**, /trabajadores/api-docs/**
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    urls:
+      - name: Microservicio Articulos
+        url: /articulos/api-docs
+      - name: Microservicio Bodegas
+        url: /bodegas/api-docs
+      - name: Microservicio Clientes
+        url: /clientes/api-docs
+      - name: Microservicio Despachos
+        url: /despachos/api-docs
+      - name: Microservicio DetallePedidos
+        url: /detallePedidos/api-docs
+      - name: Microservicio Inventarios
+        url: /inventarios/api-docs
+      - name: Microservicio Pedidos
+        url: /pedidos/api-docs
+      - name: Microservicio Proveedores
+        url: /proveedores/api-docs
+      - name: Microservicio Recepciones
+        url: /recepciones/api-docs
+      - name: Microservicio Trabajadores
+        url: /trabajadores/api-docs
+  api-docs:
+    enabled: true
