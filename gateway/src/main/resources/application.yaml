@@ -29,7 +29,7 @@ spring:
               predicates:
                 - Path=/api/v1/despachos/**, /despachos/api-docs/**
 
-            - id: detallePedido-service
+            - id: detalle-pedidos-service
               uri: lb://detallePedidos
               predicates:
                 - Path=/api/v1/detallePedidos/**, /detallePedidos/api-docs/**

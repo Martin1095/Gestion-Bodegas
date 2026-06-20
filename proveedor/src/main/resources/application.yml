@@ -1,5 +1,5 @@
 server:
-  port: '8082'
+  port: '8088'
 
 springdoc:
   api-docs:
@@ -34,6 +34,10 @@ spring:
       ddl-auto: update
 
 ---
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
   config:
