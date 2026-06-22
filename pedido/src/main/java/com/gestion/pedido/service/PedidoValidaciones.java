@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gestion.pedido.DTO.ClienteExternoDTO;
+import com.gestion.pedido.DTO.PedidoDTO;
 import com.gestion.pedido.model.Pedido;
 
 import reactor.core.publisher.Mono;
@@ -35,7 +36,7 @@ public class PedidoValidaciones {
         try {
             ClienteExternoDTO resultado = webClientBuilder.build()
                 .get()
-                .uri("http://sables/api/v1/sables/buscar-por-jedi/")
+                .uri("http://clientes/api/v1/clientes/" + idClienteExterno)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
                 .bodyToMono(ClienteExternoDTO.class)
@@ -45,8 +46,7 @@ public class PedidoValidaciones {
                 return resultado;
             }
             clienteRecuperado.setIdClienteExterno(0);
-
-            clienteRecuperado.setNombre(null);
+            clienteRecuperado.setNombre("Cliente no encontrado");
             return clienteRecuperado;
 
         } catch (Exception e) {
@@ -54,6 +54,14 @@ public class PedidoValidaciones {
         }
     }
 
-
-
+    //Metodo para convertir a PedidoDTO
+    PedidoDTO convertirAPedidoDTO(Pedido pedido) {
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId_pedido(pedido.getId_pedido());
+        pedidoDTO.setFecha_entrega(pedido.getFecha_entrega());
+        pedidoDTO.setDireccion_entrega(pedido.getDireccion_entrega());
+        pedidoDTO.setEstado_pedido(pedido.getEstado_pedido());
+        pedidoDTO.setCliente(obtenerCliente(pedido.getId_pedido()));
+        return pedidoDTO;
+    }
 }

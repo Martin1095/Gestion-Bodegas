@@ -11,4 +11,6 @@ public class PedidoDTO {
     private Date fecha_entrega;
     private String direccion_entrega;
     private String estado_pedido;
+
+    private ClienteExternoDTO cliente;
 }
