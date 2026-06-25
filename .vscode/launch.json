@@ -1,0 +1,56 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "DetallePedidoApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.detallePedido.DetallePedidoApplication",
+            "projectName": "detallePedido"
+        },
+        {
+            "type": "java",
+            "name": "RecepcionApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.recepcion.RecepcionApplication",
+            "projectName": "recepcion"
+        },
+        {
+            "type": "java",
+            "name": "DespachoApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.despacho.DespachoApplication",
+            "projectName": "despacho"
+        },
+        {
+            "type": "java",
+            "name": "ProveedorApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.proveedor.ProveedorApplication",
+            "projectName": "proveedor"
+        },
+        {
+            "type": "java",
+            "name": "TrabajadorApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.trabajador.TrabajadorApplication",
+            "projectName": "trabajador"
+        },
+        {
+            "type": "java",
+            "name": "InventarioApplication",
+            "request": "launch",
+            "mainClass": "com.gestion.inventario.InventarioApplication",
+            "projectName": "inventario"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ClienteApplication<Cliente>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gestion.cliente.ClienteApplication",
+            "projectName": "Cliente",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
