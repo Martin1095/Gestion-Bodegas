@@ -9,7 +9,7 @@ springdoc:
 
 spring:
   application:
-    name: clientes
+    name:  proveedores
   flyway:
     enabled: 'true'
     baseline-on-migrate: 'true'
@@ -19,6 +19,21 @@ spring:
     active: dev
   
 ---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/db_proveedores_dev?createDatabaseIfNotExist=true
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: ''
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
 eureka:
   client:
     service-url:
@@ -27,25 +42,10 @@ eureka:
 spring:
   config:
     activate:
-      on-profile: dev
-  datasource:
-    username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_dev?createDatabaseIfNotExist=true
-    driverClassName: com.mysql.cj.jdbc.Driver
-    password: ''
-  jpa:
-    hibernate:
-      ddl-auto: update
-
----
-
-spring:
-  config:
-    activate:
       on-profile: test
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_test?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/db_proveedores_test?createDatabaseIfNotExist=true
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ''
   jpa:
@@ -60,7 +60,7 @@ spring:
       on-profile: prod
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_prod?createDatabaseIfNotExist=true # Le cambié la BD a _prod para diferenciarla de test
+    url: jdbc:mysql://localhost:3306/db_proveedores_prod?createDatabaseIfNotExist=true # Le cambié la BD a _prod para diferenciarla de test
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ''
   jpa:

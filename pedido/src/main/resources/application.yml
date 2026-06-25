@@ -9,7 +9,7 @@ springdoc:
 
 spring:
   application:
-    name: clientes
+    name: pedidos
   flyway:
     enabled: 'true'
     baseline-on-migrate: 'true'
@@ -30,7 +30,7 @@ spring:
       on-profile: dev
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_dev?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/db_pedidos_dev?createDatabaseIfNotExist=true
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ''
   jpa:
@@ -45,7 +45,7 @@ spring:
       on-profile: test
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_test?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/db_pedidos_test?createDatabaseIfNotExist=true
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ''
   jpa:
@@ -60,7 +60,7 @@ spring:
       on-profile: prod
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/db_clientes_prod?createDatabaseIfNotExist=true # Le cambié la BD a _prod para diferenciarla de test
+    url: jdbc:mysql://localhost:3306/db_pedidos_prod?createDatabaseIfNotExist=true # Le cambié la BD a _prod para diferenciarla de test
     driverClassName: com.mysql.cj.jdbc.Driver
     password: ''
   jpa:

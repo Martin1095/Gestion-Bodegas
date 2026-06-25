@@ -1,5 +1,6 @@
 package com.gestion.pedido.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +19,23 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private PedidoValidaciones pedidoValidaciones;
+
     //Metodo para obtener todos los pedidos
     public List<PedidoDTO> obtenerPedidos(){
-        return pedidoRepository.findAll().stream()
-                .map(this::convertirAPedidoDTO)
-                .toList();
-    }
-
-    //Metodo para convertir a PedidoDTO
-    private PedidoDTO convertirAPedidoDTO(Pedido pedido) {
-        PedidoDTO pedidoDTO = new PedidoDTO();
-        pedidoDTO.setId_pedido(pedido.getId_pedido());
-        pedidoDTO.setFecha_entrega(pedido.getFecha_entrega());
-        pedidoDTO.setDireccion_entrega(pedido.getDireccion_entrega());
-        pedidoDTO.setEstado_pedido(pedido.getEstado_pedido());
-        return pedidoDTO;
+        List<PedidoDTO> listaDTOs = new ArrayList<>();
+        for (Pedido pedido : pedidoRepository.findAll()) {
+            listaDTOs.add(pedidoValidaciones.convertirAPedidoDTO(pedido));
+        }
+        return listaDTOs;
     }
 
     //Metodo para obtener un pedido por su ID
     public PedidoDTO obtenerPedidoPorId(Integer id_pedido){
         Pedido pedido = pedidoRepository.findById(id_pedido)
                     .orElseThrow(() -> new RuntimeException("Pedido no encontrado con el ID: " + id_pedido));
-        return convertirAPedidoDTO(pedido);
+        return pedidoValidaciones.convertirAPedidoDTO(pedido);
     }
 
     //metodo para añdadir nuevo pedido
