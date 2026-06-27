@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gestion.despacho.DTO.DespachoDTO;
 import com.gestion.despacho.model.Despacho;
 import com.gestion.despacho.service.DespachoService;
 
@@ -31,24 +32,24 @@ public class DespachoController {
     @Operation(summary = "Listar datos de despachos", description = "Devuelve una lista con informacion sobre los despachos.")
     @ApiResponse(responseCode = "200", description = "Lista de despachos obtenida exitosamente")
     @ApiResponse(responseCode = "400", description = "Solicitud inválida")
-    public ResponseEntity<List<Despacho>> listar(){
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<List<DespachoDTO>> listar(){
+        return ResponseEntity.ok(service.obtenerDespachos());
     }
 
     @PostMapping
     @Operation(summary = "Guardar despacho", description = "Permite guardar un nuevo despacho en el sistema.")
     @ApiResponse(responseCode = "201", description = "Despacho guardado exitosamente")
     @ApiResponse(responseCode = "400", description = "Solicitud inválida")
-    public ResponseEntity<Despacho> guardar(@RequestBody Despacho despacho){
-        return new ResponseEntity<>(service.guardar(despacho),HttpStatus.CREATED);
+    public ResponseEntity<DespachoDTO> guardar(@RequestBody Despacho despacho){
+        return new ResponseEntity<>(service.guardarDespacho(despacho),HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar despacho por ID", description = "Permite buscar un despacho por su ID.")
     @ApiResponse(responseCode = "200", description = "Despacho encontrado exitosamente")
     @ApiResponse(responseCode = "404", description = "Despacho no encontrado")
-    public ResponseEntity<Despacho> buscar(@PathVariable Integer id){
-        return ResponseEntity.ok(service.buscar(id));
+    public ResponseEntity<DespachoDTO> buscar(@PathVariable Integer id){
+        return ResponseEntity.ok(service.buscarDespachoPorId(id));
     }
 
 }

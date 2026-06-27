@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.gestion.despacho.DTO.DespachoDTO;
 import com.gestion.despacho.model.Despacho;
 import com.gestion.despacho.repository.DespachoRepository;
 import com.gestion.despacho.service.DespachoService;
@@ -47,7 +48,7 @@ public class DespachoServiceTest {
 
         when(despachoRepository.findAll()).thenReturn(lista);
 
-        List<Despacho> resultado = despachoService.listar();
+        List<DespachoDTO> resultado = despachoService.obtenerDespachos();
 
         assertEquals(2, resultado.size());
 
@@ -62,7 +63,7 @@ public class DespachoServiceTest {
         when(despachoRepository.findById(1))
                 .thenReturn(Optional.of(despacho));
 
-        Despacho resultado = despachoService.buscar(1);
+        DespachoDTO resultado = despachoService.buscarDespachoPorId(1);
 
         assertNotNull(resultado);
 
@@ -77,7 +78,7 @@ public class DespachoServiceTest {
         when(despachoRepository.save(despacho))
                 .thenReturn(despacho);
 
-        Despacho resultado = despachoService.guardar(despacho);
+        Object resultado = despachoService.guardarDespacho(despacho);
 
         assertNotNull(resultado);
 
