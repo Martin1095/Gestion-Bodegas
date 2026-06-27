@@ -7,6 +7,7 @@ import com.gestion.articulo.DTO.ArticuloDTO;
 import com.gestion.articulo.model.Articulo;
 import com.gestion.articulo.repository.ArticuloRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,28 +15,23 @@ import java.util.List;
 public class ArticuloService {
     @Autowired
     private ArticuloRepository articuloRepository;
-    // Convertir entidad a DTO
-    private ArticuloDTO convertirADTO(Articulo articulo) {
-        ArticuloDTO dto = new ArticuloDTO();
-            dto.setId_articulo(articulo.getId_articulo());
-            dto.setNombre(articulo.getNombre());
-            dto.setMarca(articulo.getMarca());
-            dto.setStock(articulo.getStock());
-            dto.setPrecio(articulo.getPrecio());
-            return dto;
-    }
+
+    @Autowired
+    private ArticuloValidaciones articuloValidaciones;
+
     // Obtener todos los artículos
-    public List<ArticuloDTO> obtenerTodos() {
-        return articuloRepository.findAll()
-                .stream()
-                .map(this::convertirADTO)
-                .toList();
+    public List<ArticuloDTO> obtenerArticulos(){
+        List<ArticuloDTO> listaDTOs = new ArrayList<>();
+        for (Articulo articulo : articuloRepository.findAll()) {
+            listaDTOs.add(articuloValidaciones.convertirADTO(articulo));
+        }
+        return listaDTOs;
     }
     // Buscar artículo por id
-    public ArticuloDTO buscarPorId(Integer id) {
-        Articulo articulo = articuloRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
-        return convertirADTO(articulo);
+    public ArticuloDTO obtenerArticuloPorId(Integer id_articulo){
+        Articulo articulo = articuloRepository.findById(id_articulo)
+                    .orElseThrow(() -> new RuntimeException("Pedido no encontrado con el ID: " + id_articulo));
+        return articuloValidaciones.convertirADTO(articulo);
     }
     // Guardar artículo
     public Articulo guardarArticulo(Articulo articulo) {
