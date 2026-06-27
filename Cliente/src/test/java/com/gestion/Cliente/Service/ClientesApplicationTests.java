@@ -26,7 +26,7 @@ import net.datafaker.Faker;
 public class ClientesApplicationTests {
     
     @Mock
-    private ClienteRepository clienteRepository;    
+    private ClienteRepository clienteRepository;
 
     @InjectMocks
     private ClienteService clienteService;
@@ -59,7 +59,7 @@ public class ClientesApplicationTests {
     when(clienteRepository.findById(idSimulado)).thenReturn(Optional.of(clienteFalso));
 
 
-        ClienteDTO resultado = clienteService.obtenerClientePorId(idSimulado);
+        ClienteDTO resultado = clienteService.buscarClientePorId(idSimulado);
 
         assertNotNull(resultado, "El DTO resultante no debería ser nulo");
         assertEquals(nombreSimulado, resultado.getNombre(), "El nombre transformado al DTO debe coincidir con el de la DB");
@@ -119,7 +119,7 @@ public class ClientesApplicationTests {
     when(clienteRepository.save(clienteFalso)).thenReturn(clienteFalso);
 
 
-        Cliente resultado = clienteService.agregarCliente(clienteFalso);
+        ClienteDTO resultado = clienteService.guardarCliente(clienteFalso);
 
         assertNotNull(resultado, "El cliente resultante no debería ser nulo");
         assertEquals(nombreSimulado, resultado.getNombre(), "El nombre transformado al DTO debe coincidir con el de la DB");
