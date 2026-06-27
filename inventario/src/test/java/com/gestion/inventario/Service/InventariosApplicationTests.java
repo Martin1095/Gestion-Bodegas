@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.gestion.inventario.DTO.InventarioDTO;
 import com.gestion.inventario.model.Inventario;
 import com.gestion.inventario.repository.InventarioRepository;
 import com.gestion.inventario.service.InventarioService;
@@ -38,7 +39,7 @@ public class InventariosApplicationTests {
         when(repo.findAll())
                 .thenReturn(Arrays.asList(new Inventario(), new Inventario()));
 
-        List<Inventario> lista = service.listar();
+        List<InventarioDTO> lista = service.obtenerInventarios();
 
         assertEquals(2, lista.size());
 
@@ -53,7 +54,7 @@ public class InventariosApplicationTests {
         when(repo.save(inventario))
                 .thenReturn(inventario);
 
-        Inventario resultado = service.guardar(inventario);
+        InventarioDTO resultado = service.guardarInventario(inventario);
 
         assertNotNull(resultado);
 
@@ -68,7 +69,7 @@ public class InventariosApplicationTests {
         when(repo.findById(1))
                 .thenReturn(Optional.of(inventario));
 
-        Inventario resultado = service.buscar(1);
+        InventarioDTO resultado = service.buscarInventarioPorId(1);
 
         assertNotNull(resultado);
 

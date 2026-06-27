@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gestion.inventario.DTO.InventarioDTO;
 import com.gestion.inventario.model.Inventario;
 import com.gestion.inventario.service.InventarioService;
 
@@ -32,23 +33,23 @@ public class InventarioController {
     @Operation(summary = "Listar inventario", description = "Obtiene una lista de todos los inventarios registrados en el sistema.")
     @ApiResponse(responseCode = "200", description = "Lista de inventarios obtenida exitosamente")
     @ApiResponse(responseCode = "204", description = "No se encontraron inventarios")
-    public ResponseEntity<List<Inventario>> listar(){
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<List<InventarioDTO>> listar(){
+        return ResponseEntity.ok(service.obtenerInventarios());
     }
 
     @PostMapping
     @Operation(summary = "Guardar inventario", description = "Permite guardar un nuevo inventario en el sistema.")
     @ApiResponse(responseCode = "201", description = "Inventario guardado exitosamente")
-    public ResponseEntity<Inventario> guardar(@RequestBody Inventario inv){
-        return new ResponseEntity<>(service.guardar(inv),HttpStatus.CREATED);
+    public ResponseEntity<InventarioDTO> guardar(@RequestBody Inventario inv){
+        return new ResponseEntity<>(service.guardarInventario(inv),HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar inventario", description = "Permite buscar un inventario por su ID.")
     @ApiResponse(responseCode = "200", description = "Inventario encontrado exitosamente")
     @ApiResponse(responseCode = "404", description = "Inventario no encontrado")
-    public ResponseEntity<Inventario> buscar(@PathVariable Integer id){
-    return ResponseEntity.ok(service.buscar(id));
+    public ResponseEntity<InventarioDTO> buscar(@PathVariable Integer id){
+    return ResponseEntity.ok(service.buscarInventarioPorId(id));
     }
 
 }
