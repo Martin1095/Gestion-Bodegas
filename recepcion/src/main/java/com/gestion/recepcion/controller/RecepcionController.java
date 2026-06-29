@@ -33,7 +33,7 @@ public class RecepcionController {
     @ApiResponse(responseCode = "200", description = "Lista de recepciones obtenida exitosamente")
     @ApiResponse(responseCode = "204", description = "No se encontraron recepciones")
     public ResponseEntity<List<RecepcionDTO>> obtenerTodos() {
-        List<RecepcionDTO> lista = recepcionService.obtenerTodos();
+        List<RecepcionDTO> lista = recepcionService.obtenerRecepciones();
         if (lista.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
