@@ -38,7 +38,7 @@ public class TrabadoresApplicationTests {
         when(trabajadorRepository.findAll())
                 .thenReturn(Arrays.asList(new Trabajador(), new Trabajador()));
 
-        List<TrabajadorDTO> lista = trabajadorService.obtenerTodos();
+        List<TrabajadorDTO> lista = trabajadorService.obtenerTrabajadores();
 
         assertEquals(2, lista.size());
 
