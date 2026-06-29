@@ -2,6 +2,7 @@ package com.gestion.proveedor.service;
 
 import org.springframework.stereotype.Service;
 
+import com.gestion.proveedor.DTO.ProveedorDTO;
 import com.gestion.proveedor.model.Proveedor;
 
 @Service
@@ -20,5 +21,11 @@ public class ProveedorValidaciones {
         return true;
     }
 
-    
+    ProveedorDTO convertirADTO(Proveedor proveedor){
+        ProveedorDTO proveedorDTO = new ProveedorDTO();
+        proveedorDTO.setNombre(proveedor.getNombre());
+        proveedorDTO.setCorreo(proveedor.getCorreo());
+        proveedorDTO.setTelefono(proveedor.getTelefono());
+        return proveedorDTO;
+    }
 }

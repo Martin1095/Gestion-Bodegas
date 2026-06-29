@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class ProveedorController {
     @ApiResponse(responseCode = "200", description = "Lista de proveedores obtenida exitosamente")
     @ApiResponse(responseCode = "204", description = "No se encontraron proveedores")
     public ResponseEntity<List<ProveedorDTO>> obtenerTodos() {
-        List<ProveedorDTO> lista = proveedorService.obtenerTodos();
+        List<ProveedorDTO> lista = proveedorService.obtenerProveedores();
         if (lista.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -51,5 +52,17 @@ public class ProveedorController {
         }
     }
 
+    @GetMapping("/{id_proveedor}")
+    @Operation(summary = "Obtener proveedor por ID", description = "Permite buscar un proveedor por su ID.")
+    @ApiResponse(responseCode = "200", description = "Proveedor encontrado exitosamente")
+    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
+    public ResponseEntity<ProveedorDTO> obtenerPedidoPorId(@PathVariable Integer id_proveedor) {
+        try {
+            ProveedorDTO proveedor = proveedorService.obtenerProveedorPorId(id_proveedor);
+            return new ResponseEntity<>(proveedor, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     
 }

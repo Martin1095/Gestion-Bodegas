@@ -36,7 +36,7 @@ public class ProveedoresApplicationTests {
         when(proveedorRepository.findAll())
                 .thenReturn(Arrays.asList(new Proveedor(), new Proveedor()));
 
-        List<ProveedorDTO> lista = proveedorService.obtenerTodos();
+        List<ProveedorDTO> lista = proveedorService.obtenerProveedores();
 
         assertEquals(2, lista.size());
 
