@@ -10,5 +10,6 @@ public class DetallePedidoDTO {
     private double precio_unitario;
 
     private PedidoExternoDTO pedido;
+    private ArticuloExternoDTO articulo;
 }
 

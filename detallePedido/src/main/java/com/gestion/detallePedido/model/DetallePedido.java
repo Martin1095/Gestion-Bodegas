@@ -26,7 +26,6 @@ public class DetallePedido {
     @Column(name = "cantidad", nullable = false)
     private int cantidad;
 
-
     @Min(value = 1)
     @Column(name = "precio_unitario", nullable = false)
     private double precio_unitario;

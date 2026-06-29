@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.gestion.detallePedido.DTO.ArticuloExternoDTO;
 import com.gestion.detallePedido.DTO.DetallePedidoDTO;
 import com.gestion.detallePedido.DTO.PedidoExternoDTO;
 import com.gestion.detallePedido.model.DetallePedido;
@@ -27,12 +28,13 @@ public class DetallePedidoValidaciones {
         return true;
     }
 
+    //Obtener Pedido externo
     public PedidoExternoDTO obtenerPedido(Integer idPedidoExterno){
         PedidoExternoDTO pedidoRecuperado = new PedidoExternoDTO();
         try{
             PedidoExternoDTO resultado = webClientBuilder.build()
                 .get()
-                .uri("https://detallePedidos/api/v1/detallesPedidos/" + idPedidoExterno)
+                .uri("https://Pedidos/api/v1/Pedidos/" + idPedidoExterno)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
                 .bodyToMono(PedidoExternoDTO.class)
@@ -50,13 +52,39 @@ public class DetallePedidoValidaciones {
         }
     }
 
+
+    //Obtener Articulo externo
+    public ArticuloExternoDTO obtenerArticulo(Integer id_articuloExterno){
+        ArticuloExternoDTO articuloRecuperado = new ArticuloExternoDTO();
+        try{
+            ArticuloExternoDTO resultado = webClientBuilder.build()
+                .get()
+                .uri("https://Articulos/api/v1/Articulos/" + id_articuloExterno)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, response -> Mono.empty())
+                .bodyToMono(ArticuloExternoDTO.class)
+                .block();
+        
+        if (resultado != null){
+            return resultado;
+        }
+        articuloRecuperado.setId_articuloExterno(id_articuloExterno);
+        articuloRecuperado.setNombre("Articulo no encontrado");
+        return articuloRecuperado;
+
+        }catch (Exception e){
+            return articuloRecuperado;
+        }
+    }
+
     //Metodo para transformar un DetallePedido a DetallePedidoDTO
-    public DetallePedidoDTO convertirADetallePedidoDTO(DetallePedido detallePedido) {
+    DetallePedidoDTO convertirADetallePedidoDTO(DetallePedido detallePedido) {
         DetallePedidoDTO detallePedidoDTO = new DetallePedidoDTO();
         detallePedidoDTO.setId_detalle_pedido(detallePedido.getId_detalle_pedido());
         detallePedidoDTO.setCantidad(detallePedido.getCantidad());
         detallePedidoDTO.setPrecio_unitario(detallePedido.getPrecio_unitario());
         detallePedidoDTO.setPedido(obtenerPedido(detallePedido.getId_detalle_pedido()));
+        detallePedidoDTO.setArticulo(obtenerArticulo(detallePedido.getId_detalle_pedido()));;
         return detallePedidoDTO;
     }
 
