@@ -27,5 +27,9 @@ public class Despacho {
 
     private Date fecha;
 
+    private String destino;
+
     private String estado;
+
+    private Integer cantidad;
 }

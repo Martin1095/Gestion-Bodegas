@@ -1,5 +1,6 @@
 package com.gestion.trabajador.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +17,20 @@ import jakarta.transaction.Transactional;
 public class TrabajadorService {
 
     @Autowired
+    private TrabajadorValidaciones trabajadorValidaciones;
+
+    @Autowired
     private TrabajadorRepository trabajadorRepository;
+
     //metodo para obtener todos los trabajadores, devuelve una lista de TrabajadorDTO
-    public List<TrabajadorDTO> obtenerTodos() {
-        return trabajadorRepository.findAll()
-            .stream()
-            .map(this::convertirADTO)
-            .toList();
+    public List<TrabajadorDTO> obtenerTrabajadores(){
+        List<TrabajadorDTO> listaDTOs = new ArrayList<>();
+        for (Trabajador trabajador : trabajadorRepository.findAll()) {
+            listaDTOs.add(trabajadorValidaciones.convertirADTO(trabajador));
+        }
+        return listaDTOs;
     }
 
-    //metodo para convertir un Trabajador a TrabajadorDTO
-    private TrabajadorDTO convertirADTO(Trabajador trabajador) {
-        TrabajadorDTO dto = new TrabajadorDTO();
-        dto.setId(trabajador.getId_trabajador());
-        dto.setNombre(trabajador.getNombre());
-        dto.setCargo(trabajador.getCargo());
-        dto.setEdad(trabajador.getEdad());
-        return dto;
-    }
     
     //metodo para guardar un trabajador, recibe un objeto Trabajador y lo guarda en la base de datos
     public Trabajador guardarTrabajador(Trabajador trabajador) {

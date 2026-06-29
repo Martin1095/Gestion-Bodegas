@@ -31,7 +31,7 @@ public class TrabajadorController {
     @ApiResponse(responseCode = "200", description = "Lista de trabajadores obtenida exitosamente")
     @ApiResponse(responseCode = "204", description = "No se encontraron trabajadores")
     public ResponseEntity<List<TrabajadorDTO>> obtenerTodos() {
-        List<TrabajadorDTO> lista = trabajadorService.obtenerTodos();
+        List<TrabajadorDTO> lista = trabajadorService.obtenerTrabajadores();
         
         if (lista.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

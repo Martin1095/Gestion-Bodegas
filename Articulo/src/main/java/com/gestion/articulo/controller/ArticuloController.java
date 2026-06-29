@@ -33,7 +33,7 @@ public class ArticuloController {
     @ApiResponse(responseCode = "200", description = "Lista de artículos obtenida exitosamente")
     @ApiResponse(responseCode = "204", description = "No se encontraron artículos")
     public ResponseEntity<List<ArticuloDTO>> obtenerTodos() {
-        List<ArticuloDTO> lista = articuloService.obtenerTodos();
+        List<ArticuloDTO> lista = articuloService.obtenerArticulos();
         if (lista.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -46,7 +46,7 @@ public class ArticuloController {
     @ApiResponse(responseCode = "404", description = "Artículo no encontrado")
     public ResponseEntity<ArticuloDTO> buscarPorId(@PathVariable Integer id){
         try {
-            ArticuloDTO articulo = articuloService.buscarPorId(id);
+            ArticuloDTO articulo = articuloService.obtenerArticuloPorId(id);
             return new ResponseEntity<>(articulo, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

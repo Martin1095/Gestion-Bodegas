@@ -1,5 +1,6 @@
 package com.gestion.cliente.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +15,25 @@ import com.gestion.cliente.repository.ClienteRepository;
 public class ClienteService {
 
     @Autowired
+    private ClienteValidaciones clienteValidaciones;
+
+    @Autowired
     private ClienteRepository clienteRepository;
 
     // Método para obtener todos los clientes
-    public List<ClienteDTO> obtenerClientes(){
-        return clienteRepository.findAll().stream()
-                .map(this::convertirAClienteDTO)
-                .toList();
+    public List<ClienteDTO> obtenerClientes() {
+        List<ClienteDTO> listaDTOs = new ArrayList<>();
+        for (Cliente cliente : clienteRepository.findAll()) {
+            listaDTOs.add(clienteValidaciones.convertirAClienteDTO(cliente));
+        }
+        return listaDTOs;
     }
 
     // Metodo para obtener un cliente por su ID
-    public ClienteDTO obtenerClientePorId(Integer id_cliente){
+    public ClienteDTO buscarClientePorId(Integer id_cliente) {
         Cliente cliente = clienteRepository.findById(id_cliente)
-                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id_cliente));
-        return convertirAClienteDTO(cliente);
+            .orElseThrow(() -> new RuntimeException("Cliente no encontrado en los archivos"));
+        return clienteValidaciones.convertirAClienteDTO(cliente);
     }
 
     // Metodo para eliminar un cliente por su ID
@@ -43,8 +49,12 @@ public class ClienteService {
     }
 
     // Método para añadir un nuevo cliente
-    public Cliente agregarCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteDTO guardarCliente(Cliente nuevoCliente) {
+        if(clienteValidaciones.validarNullVacio(nuevoCliente)){
+            Cliente guardado = clienteRepository.save(nuevoCliente);
+            return clienteValidaciones.convertirAClienteDTO(guardado);
+        }
+        return null;
     }
 
     // Método para actualizar un cliente existente
@@ -67,18 +77,9 @@ public class ClienteService {
     public ClienteDTO buscarPorRut(String rut) {
         Cliente cliente = clienteRepository.findByRut(rut);
         if (cliente == null) {
-            throw new RuntimeException("Cliente no encontrado con RUT: " + rut);
+            throw new RuntimeException("Cliente no encontrado en los archivos");
         }
-        return convertirAClienteDTO(cliente);
+        return clienteValidaciones.convertirAClienteDTO(cliente);
     }
     
-    // Método para transformar un Cliente a ClienteDTO
-    public ClienteDTO convertirAClienteDTO(Cliente cliente) {
-        ClienteDTO clienteDTO = new ClienteDTO();
-        clienteDTO.setId_cliente(cliente.getId_cliente());
-        clienteDTO.setNombre(cliente.getNombre());
-        clienteDTO.setCorreo(cliente.getCorreo());
-        clienteDTO.setTelefono(cliente.getTelefono());
-        return clienteDTO;
-    }
 }

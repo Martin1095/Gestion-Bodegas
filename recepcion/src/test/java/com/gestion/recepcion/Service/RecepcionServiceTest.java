@@ -47,7 +47,7 @@ public class RecepcionServiceTest {
                         new Recepcion()));
 
         List<RecepcionDTO> resultado =
-                recepcionService.obtenerTodos();
+                recepcionService.obtenerRecepciones();
 
         assertEquals(2, resultado.size());
 

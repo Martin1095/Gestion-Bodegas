@@ -46,9 +46,9 @@ public class ClienteController {
     @Operation(summary = "Obtener cliente por ID", description = "Devuelve la información de un cliente específico según su ID.")
     @ApiResponse(responseCode = "200", description = "Cliente obtenido exitosamente")
     @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
-    public ResponseEntity<ClienteDTO> obtenerClientePorId(@PathVariable Integer id_cliente) {
+    public ResponseEntity<?> obtenerClientePorId(@PathVariable Integer id_cliente) {
         try {
-            ClienteDTO cliente = clienteService.obtenerClientePorId(id_cliente);
+            ClienteDTO cliente = clienteService.buscarClientePorId(id_cliente);
             return new ResponseEntity<>(cliente, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -74,9 +74,9 @@ public class ClienteController {
     @Operation(summary = "Agregar cliente", description = "Añade un nuevo cliente al sistema.")
     @ApiResponse(responseCode = "201", description = "Cliente agregado exitosamente")
     @ApiResponse(responseCode = "400", description = "Solicitud inválida")
-    public ResponseEntity<Cliente> agregarCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<?> agregarCliente(@RequestBody Cliente cliente) {
         try {
-            Cliente nuevoCliente = clienteService.agregarCliente(cliente);
+            ClienteDTO nuevoCliente = clienteService.guardarCliente(cliente);
             return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -40,7 +40,7 @@ public class ArticulosApplicationTest {
         when(articuloRepository.findAll())
                 .thenReturn(Arrays.asList(a1, a2));
 
-        List<ArticuloDTO> resultado = articuloService.obtenerTodos();
+        List<ArticuloDTO> resultado = articuloService.obtenerArticulos();
 
         assertEquals(2, resultado.size());
 
@@ -70,7 +70,7 @@ public class ArticulosApplicationTest {
         when(articuloRepository.findById(1))
                 .thenReturn(Optional.of(articulo));
 
-        ArticuloDTO resultado = articuloService.buscarPorId(1);
+        ArticuloDTO resultado = articuloService.obtenerArticuloPorId(1);
 
         assertNotNull(resultado);
 

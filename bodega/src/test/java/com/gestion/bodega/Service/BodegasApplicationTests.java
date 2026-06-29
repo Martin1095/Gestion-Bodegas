@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.gestion.bodega.DTO.BodegaDTO;
 import com.gestion.bodega.model.Bodega;
 import com.gestion.bodega.repository.BodegaRepository;
 import com.gestion.bodega.service.BodegaService;
@@ -40,7 +41,7 @@ public class BodegasApplicationTests {
         when(repo.findAll())
                 .thenReturn(Arrays.asList(b1, b2));
 
-        List<Bodega> resultado = service.listar();
+        List<BodegaDTO> resultado = service.obtenerBodegas();
 
         assertEquals(2, resultado.size());
 
@@ -55,7 +56,7 @@ public class BodegasApplicationTests {
         when(repo.save(bodega))
                 .thenReturn(bodega);
 
-        Bodega resultado = service.guardar(bodega);
+        BodegaDTO resultado = service.guardarBodega(bodega);
 
         assertNotNull(resultado);
 
@@ -71,7 +72,7 @@ public class BodegasApplicationTests {
         when(repo.findById(1))
                 .thenReturn(Optional.of(bodega));
 
-        Bodega resultado = service.buscar(1);
+        BodegaDTO resultado = service.buscarBodegaPorId(1);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.getId_bodega());
