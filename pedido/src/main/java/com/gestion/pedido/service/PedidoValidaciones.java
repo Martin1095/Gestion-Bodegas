@@ -19,7 +19,7 @@ public class PedidoValidaciones {
 
 
     public Boolean validarNullVacio(Pedido pedido){
-        if(pedido.getFecha_entrega()== null || pedido.getDireccion_entrega().trim().length() == 0){
+        if(pedido.getFecha_entrega()== null){
             return false;
         }
         if(pedido.getDireccion_entrega() == null || pedido.getDireccion_entrega().trim().length() == 0){
@@ -31,7 +31,7 @@ public class PedidoValidaciones {
         return true;
     }
 
-        public ClienteExternoDTO obtenerCliente(Integer idClienteExterno){
+    public ClienteExternoDTO obtenerCliente(Integer idClienteExterno){
         ClienteExternoDTO clienteRecuperado = new ClienteExternoDTO();
         try {
             ClienteExternoDTO resultado = webClientBuilder.build()
@@ -50,12 +50,14 @@ public class PedidoValidaciones {
             return clienteRecuperado;
 
         } catch (Exception e) {
+            clienteRecuperado.setIdClienteExterno(0);
+            clienteRecuperado.setNombre("No se pudo recuperar el cliente");
             return clienteRecuperado;
         }
     }
 
-    //Metodo para convertir a PedidoDTO
-    PedidoDTO convertirAPedidoDTO(Pedido pedido) {
+    // Method to convert to PedidoDTO
+    public PedidoDTO convertirAPedidoDTO(Pedido pedido) {
         PedidoDTO pedidoDTO = new PedidoDTO();
         pedidoDTO.setId_pedido(pedido.getId_pedido());
         pedidoDTO.setFecha_entrega(pedido.getFecha_entrega());

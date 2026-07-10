@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ClienteExternoDTO {
     private Integer idClienteExterno;
-    private Integer pedidoId;
+    private Integer id_pedido;
     private String nombre;
     private String apellido;
     private String rut;

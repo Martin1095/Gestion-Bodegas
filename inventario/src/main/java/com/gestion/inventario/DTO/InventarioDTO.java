@@ -9,4 +9,6 @@ public class InventarioDTO {
     private Integer stockActual;
     private Integer stockMinimo;
     private String ubicacion;
+
+    private BodegaExternaDTO bodega;
 }
