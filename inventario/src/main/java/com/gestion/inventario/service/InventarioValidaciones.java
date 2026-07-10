@@ -12,6 +12,7 @@ import com.gestion.inventario.model.Inventario;
 import reactor.core.publisher.Mono;
 
 @Service
+
 public class InventarioValidaciones {
 
     @Autowired
