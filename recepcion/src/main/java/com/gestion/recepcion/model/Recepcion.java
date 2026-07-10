@@ -26,6 +26,8 @@ public class Recepcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_recepcion;
 
+    private Integer id_proveedor;
+
     // Fecha de recepción
     @Column(nullable = false)
     private Date fecha;
