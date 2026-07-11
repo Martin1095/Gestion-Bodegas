@@ -1,6 +1,6 @@
-package com.gestion.cliente.controller;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+package com.gestion.bodega.controller;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,48 +13,47 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gestion.cliente.DTO.ClienteDTO;
-import com.gestion.cliente.assemblers.ClienteModelAssembler;
-import com.gestion.cliente.model.Cliente;
-import com.gestion.cliente.service.ClienteService;
+import com.gestion.bodega.DTO.BodegaDTO;
+import com.gestion.bodega.assemblers.BodegaModelAssembler;
+import com.gestion.bodega.model.Bodega;
+import com.gestion.bodega.service.BodegaService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestBody;
 
-@RestController("clienteControllerV2")
-@RequestMapping("/api/v2/clientes")
-public class ClienteControllerV2 {
-
-    @Autowired
-    private ClienteService clienteService;
+@RestController("bodegaControllerV2")
+@RequestMapping("/api/v2/bodegas")
+public class BodegaControllerV2 {
 
     @Autowired
-    private ClienteModelAssembler assembler;
+    private BodegaService bodegaService;
 
+    @Autowired
+    private BodegaModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<ClienteDTO>>> todas() {
-        List<EntityModel<ClienteDTO>> clientes = clienteService.obtenerClientes().stream()
+    public ResponseEntity<CollectionModel<EntityModel<BodegaDTO>>> todas() {
+        List<EntityModel<BodegaDTO>> bodegas = bodegaService.obtenerBodegas().stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        if (clientes.isEmpty()) {
+        if (bodegas.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.ok(CollectionModel.of(
-                clientes,
-                linkTo(methodOn(ClienteController.class).obtenerClientes()).withSelfRel()
+                bodegas,
+                linkTo(methodOn(BodegaController.class).listar()).withSelfRel()
         ));
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<ClienteDTO>> porId(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<BodegaDTO>> porId(@PathVariable Integer id) {
         try {
-            ClienteDTO dto = clienteService.buscarClientePorId(id);
+            BodegaDTO dto = bodegaService.buscarBodegaPorId(id);
             if (dto == null) {
                 return ResponseEntity.notFound().build();
             }
@@ -65,12 +64,12 @@ public class ClienteControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<ClienteDTO>> registrar(@Valid @RequestBody Cliente cliente) {
+    public ResponseEntity<EntityModel<BodegaDTO>> registrar(@Valid @RequestBody Bodega bodega) {
         try {
-            ClienteDTO newCliente = clienteService.guardarCliente(cliente);
+            BodegaDTO newBodega = bodegaService.guardarBodega(bodega);
             return ResponseEntity
-                    .created(linkTo(methodOn(ClienteController.class).obtenerClientePorId(newCliente.getId_cliente())).toUri())
-                    .body(assembler.toModel(newCliente));
+                    .created(linkTo(methodOn(BodegaController.class).buscar(newBodega.getId_bodega())).toUri())
+                    .body(assembler.toModel(newBodega));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

@@ -19,6 +19,7 @@ import com.gestion.articulo.service.ArticuloService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @Tag(name = "Articulos", description = "Operaciones para los artículos en la bodega")
@@ -57,12 +58,12 @@ public class ArticuloController {
     @Operation(summary = "Guardar artículo", description = "Permite guardar un nuevo artículo en el sistema.")
     @ApiResponse(responseCode = "201", description = "Artículo guardado exitosamente")
     @ApiResponse(responseCode = "400", description = "Solicitud inválida")
-    public ResponseEntity<Articulo> guardar(@RequestBody Articulo articulo) {
+    public ResponseEntity<?> guardarArticulo(@Valid @RequestBody Articulo articulo) {
         try {
-            Articulo nuevo = articuloService.guardarArticulo(articulo);
-            return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
+            ArticuloDTO dto = articuloService.guardarArticulo(articulo);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error en la transmisión de datos", HttpStatus.BAD_REQUEST);
         }
     }
     // PATCH

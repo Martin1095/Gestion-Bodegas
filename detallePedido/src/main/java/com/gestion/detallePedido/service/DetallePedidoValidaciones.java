@@ -52,7 +52,6 @@ public class DetallePedidoValidaciones {
         }
     }
 
-
     //Obtener Articulo externo
     public ArticuloExternoDTO obtenerArticulo(Integer id_articuloExterno){
         ArticuloExternoDTO articuloRecuperado = new ArticuloExternoDTO();

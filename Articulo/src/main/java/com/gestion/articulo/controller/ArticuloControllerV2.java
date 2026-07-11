@@ -1,6 +1,6 @@
-package com.gestion.cliente.controller;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+package com.gestion.articulo.controller;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,48 +13,47 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gestion.cliente.DTO.ClienteDTO;
-import com.gestion.cliente.assemblers.ClienteModelAssembler;
-import com.gestion.cliente.model.Cliente;
-import com.gestion.cliente.service.ClienteService;
+import com.gestion.articulo.DTO.ArticuloDTO;
+import com.gestion.articulo.assemblers.ArticuloModelAssembler;
+import com.gestion.articulo.model.Articulo;
+import com.gestion.articulo.service.ArticuloService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestBody;
 
-@RestController("clienteControllerV2")
-@RequestMapping("/api/v2/clientes")
-public class ClienteControllerV2 {
-
-    @Autowired
-    private ClienteService clienteService;
+@RestController("articuloControllerV2")
+@RequestMapping("/api/v2/articulos")
+public class ArticuloControllerV2 {
 
     @Autowired
-    private ClienteModelAssembler assembler;
+    private ArticuloService articuloService;
 
+    @Autowired
+    private ArticuloModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<ClienteDTO>>> todas() {
-        List<EntityModel<ClienteDTO>> clientes = clienteService.obtenerClientes().stream()
+    public ResponseEntity<CollectionModel<EntityModel<ArticuloDTO>>> obtenerArticulos() {
+        List<EntityModel<ArticuloDTO>> articulos = articuloService.obtenerArticulos().stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        if (clientes.isEmpty()) {
+        if (articulos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.ok(CollectionModel.of(
-                clientes,
-                linkTo(methodOn(ClienteController.class).obtenerClientes()).withSelfRel()
+                articulos,
+                linkTo(methodOn(ArticuloController.class).obtenerTodos()).withSelfRel()
         ));
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<ClienteDTO>> porId(@PathVariable Integer id) {
+    public ResponseEntity<EntityModel<ArticuloDTO>> buscarPorId(@PathVariable Integer id) {
         try {
-            ClienteDTO dto = clienteService.buscarClientePorId(id);
+            ArticuloDTO dto = articuloService.obtenerArticuloPorId(id);
             if (dto == null) {
                 return ResponseEntity.notFound().build();
             }
@@ -65,12 +64,12 @@ public class ClienteControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<ClienteDTO>> registrar(@Valid @RequestBody Cliente cliente) {
+    public ResponseEntity<EntityModel<ArticuloDTO>> registrar(@Valid @RequestBody Articulo articulo) {
         try {
-            ClienteDTO newCliente = clienteService.guardarCliente(cliente);
+            ArticuloDTO newArticulo = articuloService.guardarArticulo(articulo);
             return ResponseEntity
-                    .created(linkTo(methodOn(ClienteController.class).obtenerClientePorId(newCliente.getId_cliente())).toUri())
-                    .body(assembler.toModel(newCliente));
+                    .created(linkTo(methodOn(ArticuloController.class).buscarPorId(newArticulo.getId_articulo())).toUri())
+                    .body(assembler.toModel(newArticulo));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

@@ -28,6 +28,9 @@ public class Bodega {
     private String nombre;
 
     @NotBlank
+    private String descripcion;
+
+    @NotBlank
     private String direccion;
 
 }

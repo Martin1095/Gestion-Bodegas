@@ -55,7 +55,7 @@ public class ArticulosApplicationTest {
         when(articuloRepository.save(articulo))
                 .thenReturn(articulo);
 
-        Articulo resultado = articuloService.guardarArticulo(articulo);
+        ArticuloDTO resultado = articuloService.guardarArticulo(articulo);
 
         assertNotNull(resultado);
 
