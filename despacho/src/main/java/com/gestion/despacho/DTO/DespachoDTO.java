@@ -6,18 +6,11 @@ import lombok.Data;
 @Data
 public class DespachoDTO {
 
-    // ID del despacho
+    private PedidoExternoDTO pedido;
+    private BodegaExternoDTO bodega;
     private Integer id_despacho;
-
-    // Fecha del despacho
     private Date fecha;
-
-    // Destino del envío
     private String destino;
-
-    // Estado actual del despacho
     private String estado;
-
-    // Cantidad despachada
     private Integer cantidad;
 }

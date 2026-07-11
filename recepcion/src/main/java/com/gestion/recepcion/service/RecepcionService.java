@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gestion.recepcion.DTO.BodegaExternoDTO;
 import com.gestion.recepcion.DTO.ProveedorExternoDTO;
 import com.gestion.recepcion.DTO.RecepcionDTO;
 import com.gestion.recepcion.model.Recepcion;
@@ -41,10 +42,19 @@ public class RecepcionService {
         }
 
         // Validación del proveedor
-        ProveedorExternoDTO proveedor = recepcionValidaciones.obtenerProveedor(recepcion.getId_proveedor());
-
+        ProveedorExternoDTO proveedor =
+            recepcionValidaciones.obtenerProveedor(recepcion.getId_proveedor());
+  
         if (proveedor.getId_proveedor() == 0) {
             throw new RuntimeException("El proveedor no existe.");
+        }
+
+        // Validación de la bodega
+        BodegaExternoDTO bodega =
+            recepcionValidaciones.obtenerBodega(recepcion.getId_bodega());
+
+        if (bodega.getIdBodegaExterno() == 0) {
+            throw new RuntimeException("La bodega no existe.");
         }
 
         return recepcionRepository.save(recepcion);

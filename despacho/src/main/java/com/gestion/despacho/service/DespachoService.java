@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.despacho.DTO.DespachoDTO;
+import com.gestion.despacho.DTO.PedidoExternoDTO;
+import com.gestion.despacho.DTO.BodegaExternoDTO;
 import com.gestion.despacho.model.Despacho;
 import com.gestion.despacho.repository.DespachoRepository;
 
@@ -31,16 +33,28 @@ public class DespachoService {
     }
 
     public DespachoDTO guardarDespacho(Despacho nuevoDespacho) {
-        if(despachoValidaciones.validarNullVacio(nuevoDespacho)){
-            Despacho guardado = repo.save(nuevoDespacho);
-            return despachoValidaciones.convertirADTO(guardado);
-        }
-        return null;
-    }
 
-    public DespachoDTO buscarDespachoPorId(Integer id_despacho) {
-        Despacho despacho = repo.findById(id_despacho)
-            .orElseThrow(() -> new RuntimeException("Despacho no encontrado en los archivos"));
-        return despachoValidaciones.convertirADTO(despacho);
+        if (!despachoValidaciones.validarNullVacio(nuevoDespacho)) {
+            throw new RuntimeException("Los datos del despacho son inválidos.");
+        }
+
+        // Validar Pedido
+        PedidoExternoDTO pedido =
+            despachoValidaciones.obtenerPedido(nuevoDespacho.getId_pedido());
+
+        if (pedido.getIdPedidoExterno() == 0) {
+            throw new RuntimeException("El pedido no existe.");
+        }
+
+        // Validar Bodega
+        BodegaExternoDTO bodega =
+            despachoValidaciones.obtenerBodega(nuevoDespacho.getId_bodega());
+
+        if (bodega.getIdBodegaExterno() == 0) {
+            throw new RuntimeException("La bodega no existe.");
+        }
+
+        Despacho guardado = repo.save(nuevoDespacho);
+        return despachoValidaciones.convertirADTO(guardado);
     }
 }

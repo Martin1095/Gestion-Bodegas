@@ -27,12 +27,12 @@ public class Recepcion {
     private Integer id_recepcion;
 
     private Integer id_proveedor;
+    private Integer id_bodega;
 
     // Fecha de recepción
     @Column(nullable = false)
     private Date fecha;
-
-
+    
     // Cantidad recibida
     @Min(value = 1)
     @Column(nullable = false)

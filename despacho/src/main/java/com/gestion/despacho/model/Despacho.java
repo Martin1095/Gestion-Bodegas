@@ -24,7 +24,8 @@ public class Despacho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_despacho;
-
+    private Integer id_bodega;
+    private Integer id_pedido;
     private Date fecha;
 
     private String destino;
