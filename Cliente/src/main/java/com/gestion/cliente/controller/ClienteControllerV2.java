@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/v2/clientes")
 public class ClienteControllerV2 {
 
-    private final ClienteController clienteController;
 
     @Autowired
     private ClienteService clienteService;
@@ -36,9 +35,6 @@ public class ClienteControllerV2 {
     @Autowired
     private ClienteModelAssembler assembler;
 
-    ClienteControllerV2(ClienteController clienteController) {
-        this.clienteController = clienteController;
-    }
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<CollectionModel<EntityModel<ClienteDTO>>> todas() {
