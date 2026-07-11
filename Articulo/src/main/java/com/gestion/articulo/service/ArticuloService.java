@@ -34,8 +34,12 @@ public class ArticuloService {
         return articuloValidaciones.convertirADTO(articulo);
     }
     // Guardar artículo
-    public Articulo guardarArticulo(Articulo articulo) {
-        return articuloRepository.save(articulo);
+    public ArticuloDTO guardarArticulo(Articulo articulo) {
+        if(articuloValidaciones.validarNullVacio(articulo)){
+            Articulo guardado = articuloRepository.save(articulo);
+            return articuloValidaciones.convertirADTO(guardado);
+        }
+        return null;
     }
     // Eliminar artículo
     public String eliminarArticulo(Integer id) {
