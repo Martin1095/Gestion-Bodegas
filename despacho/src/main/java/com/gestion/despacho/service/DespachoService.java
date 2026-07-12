@@ -32,6 +32,12 @@ public class DespachoService {
         return listaDTOs;
     }
 
+    public DespachoDTO buscarDespachoPorId(Integer id) {
+        Despacho despacho = repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Despacho no encontrado"));
+        return despachoValidaciones.convertirADTO(despacho);
+    }
+
     public DespachoDTO guardarDespacho(Despacho nuevoDespacho) {
 
         if (!despachoValidaciones.validarNullVacio(nuevoDespacho)) {
