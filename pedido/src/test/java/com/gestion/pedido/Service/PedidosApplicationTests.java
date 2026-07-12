@@ -52,7 +52,7 @@ public class PedidosApplicationTests {
         when(pedidoRepository.save(pedido))
                 .thenReturn(pedido);
 
-        Pedido resultado = pedidoService.agregarPedido(pedido);
+        PedidoDTO resultado = pedidoService.guardarPedido(pedido);
 
         assertNotNull(resultado);
 

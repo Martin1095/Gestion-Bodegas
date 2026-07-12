@@ -61,9 +61,9 @@ public class PedidoController {
     @Operation(summary = "Agregar pedido", description = "Permite añadir un nuevo pedido al sistema.")
     @ApiResponse(responseCode = "201", description = "Pedido agregado exitosamente")
     @ApiResponse(responseCode = "400", description = "Solicitud inválida")
-    public ResponseEntity<Pedido> agregarPedido(@RequestBody Pedido pedido) {
+    public ResponseEntity<PedidoDTO> agregarPedido(@RequestBody Pedido pedido) {
         try {
-            Pedido nuevoPedido = pedidoService.agregarPedido(pedido);
+            PedidoDTO nuevoPedido = pedidoService.guardarPedido(pedido);
             return new ResponseEntity<>(nuevoPedido, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

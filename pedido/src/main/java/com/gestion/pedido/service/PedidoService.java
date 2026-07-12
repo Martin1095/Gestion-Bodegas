@@ -39,8 +39,12 @@ public class PedidoService {
     }
 
     //metodo para añdadir nuevo pedido
-    public Pedido agregarPedido(Pedido pedido) {
-        return pedidoRepository.save(pedido);
+    public PedidoDTO guardarPedido(Pedido pedido) {
+        if(pedidoValidaciones.validarNullVacio(pedido)){
+            Pedido guardado = pedidoRepository.save(pedido);
+            return pedidoValidaciones.convertirAPedidoDTO(guardado);
+        }
+        return null;
     }
 
     //Metodo para actualizar un pedido existente
