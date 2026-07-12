@@ -60,5 +60,13 @@ public class RecepcionService {
         return recepcionRepository.save(recepcion);
     }
 
+    public RecepcionDTO obtenerRecepcionPorId(Integer id) {
+
+        Recepcion recepcion = recepcionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Recepción no encontrada"));
+
+        return recepcionValidaciones.convertirARecepcionDTO(recepcion);
+    }
+
 
 }
