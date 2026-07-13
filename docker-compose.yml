@@ -12,7 +12,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: db_gestion_bodega_dev
     networks:
-      - network-jedi
+      - network-gestion-bodega
     healthcheck:
       test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root"]
       interval: 10s
@@ -26,7 +26,7 @@ services:
     ports:
       - "8761:8761"
     networks:
-      - network-jedi
+      - network-gestion-bodega
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
       interval: 15s
@@ -44,7 +44,7 @@ services:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
       SPRING_PROFILES_ACTIVE: dev
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -59,7 +59,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -76,7 +76,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -93,7 +93,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -109,23 +109,23 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
 
-  detallePedido-service:
-    build: ./detallePedido
-    container_name: detallePedido-service
+  detalle-pedido-service:
+    build: ./detalle-pedido
+    container_name: detalle-pedido-service
     environment:
       SPRING_PROFILES_ACTIVE: dev
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -141,7 +141,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -157,7 +157,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -173,7 +173,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -189,7 +189,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -205,7 +205,7 @@ services:
       DATABASE_HOST: mariadb-db
       GATEWAY_URL: http://localhost:8080
     networks:
-      - network-jedi
+      - network-gestion-bodega
     depends_on:
       mariadb-db:
         condition: service_healthy
@@ -214,5 +214,5 @@ services:
 
 
 networks:
-  network-jedi:
+  network-gestion-bodega:
     driver: bridge
