@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @Tag(name = "Trabajadores", description = "Operaciones para los trabajadores en el sistema")
@@ -53,6 +54,23 @@ public class TrabajadorController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener trabajador por ID", description = "Permite buscar un trabajador por su ID")
+    @ApiResponse(responseCode = "200", description = "Trabajador encontrado exitosamente")
+    @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
+    public ResponseEntity<TrabajadorDTO> obtenerTrabajadorPorId(@PathVariable Integer id) {
+
+        try {
+
+            TrabajadorDTO trabajador = trabajadorService.obtenerTrabajadorPorId(id);
+            return new ResponseEntity<>(trabajador, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+
     }
 
 

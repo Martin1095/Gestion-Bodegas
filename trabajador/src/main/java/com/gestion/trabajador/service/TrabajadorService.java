@@ -36,4 +36,11 @@ public class TrabajadorService {
     public Trabajador guardarTrabajador(Trabajador trabajador) {
         return trabajadorRepository.save(trabajador);
     }
+
+    public TrabajadorDTO obtenerTrabajadorPorId(Integer id) {
+
+        Trabajador trabajador = trabajadorRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Trabajador no encontrado"));
+        return trabajadorValidaciones.convertirADTO(trabajador);
+    }
 }

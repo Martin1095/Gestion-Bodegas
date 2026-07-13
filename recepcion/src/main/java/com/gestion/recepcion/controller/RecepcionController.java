@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,24 @@ public class RecepcionController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener recepción por ID", description = "Permite buscar una recepción por su ID")
+    @ApiResponse(responseCode = "200", description = "Recepción encontrada exitosamente")
+    @ApiResponse(responseCode = "404", description = "Recepción no encontrada")
+    public ResponseEntity<RecepcionDTO> obtenerRecepcionPorId(@PathVariable Integer id) {
+
+        try {
+
+            RecepcionDTO recepcion = recepcionService.obtenerRecepcionPorId(id);
+            return new ResponseEntity<>(recepcion, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    
     }
 
 }
