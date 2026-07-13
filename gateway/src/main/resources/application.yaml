@@ -1,5 +1,6 @@
 server:
   port: 8080
+  forward-headers-strategy: framework
 
 spring:
   application:
@@ -8,6 +9,16 @@ spring:
     gateway:
       server:
         webmvc:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origin-patterns: "*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+                exposed-headers: "*"
+                allow-credentials: false
+                max-age: 3600
+
           routes:
             - id: articulo-service
               uri: lb://articulos
@@ -83,5 +94,14 @@ springdoc:
         url: /recepciones/api-docs
       - name: Microservicio Trabajadores
         url: /trabajadores/api-docs
+    disable-swagger-default-url: true
+    display-request-duration: true
   api-docs:
     enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: false
